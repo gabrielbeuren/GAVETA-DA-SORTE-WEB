@@ -1,0 +1,40 @@
+# Visual Studio e .NET
+.vs/
+.bin/
+.obj/
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.db
+*.opendb
+*.ide
+*.csproj.user
+.config
+.gradle/
+.nuget/
+
+# Pastas de saída
+[Bb]in/
+[Oo]bj/
+
+# Arquivos de configurações de ambiente
+.env
+.local.settings.json
+
+# Arquivos temporários e de log
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Pastas de pacotes
+packages/
+node_modules/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

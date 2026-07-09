@@ -1,0 +1,32 @@
+﻿@model GAVETAWEB.Models.Usuario
+
+<div class="auth-container">
+    <h2 class="text-center mb-4">Login</h2>
+    
+    <form asp-action="Login" method="post">
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">E-mail</label>
+            <input asp-for="Email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Senha" class="form-label">Senha</label>
+            <input asp-for="Senha" class="form-control" type="password" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">ENTRAR</button>
+
+        <div class="text-center">
+            <a asp-controller="Usuario" asp-action="Cadastro">
+                Ainda não possui conta? <strong>Cadastre-se</strong>
+            </a>
+        </div>
+
+        @if (ViewBag.Mensagem != null)
+        {
+            <div class="alert alert-danger mt-3" style="background: transparent; border-color: #ef4444; color: #ef4444;">
+                @ViewBag.Mensagem
+            </div>
+        }
+    </form>
+</div>

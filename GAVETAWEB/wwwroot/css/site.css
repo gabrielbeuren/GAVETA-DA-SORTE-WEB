@@ -1,0 +1,97 @@
+/* --- 1. Estilização Global --- */
+html, body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: #0f172a; /* Fundo azul marinho escuro global */
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Faz o conteúdo principal ocupar o espaço disponível */
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+footer {
+    flex-shrink: 0;
+    width: 100%;
+    color: #94a3b8;
+    text-align: center;
+    padding: 10px;
+}
+
+/* --- 2. Componentes de Autenticação (Login/Cadastro) --- */
+.auth-container {
+    background-color: #1e293b;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid #334155;
+    width: 100%;
+    max-width: 450px;
+    margin: 20px;
+}
+
+    .auth-container h2 {
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    .auth-container .form-label {
+        color: #cbd5e1;
+    }
+
+    .auth-container .form-control {
+        background-color: #0f172a !important;
+        border: 1px solid #475569 !important;
+        color: white !important;
+    }
+
+        .auth-container .form-control:focus {
+            border-color: #10b981 !important; /* Verde esmeralda */
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+        }
+
+    .auth-container .btn-primary {
+        background-color: #10b981 !important;
+        border: none;
+        font-weight: 600;
+        width: 100%;
+        padding: 12px;
+        transition: 0.3s;
+    }
+
+        .auth-container .btn-primary:hover {
+            background-color: #059669 !important;
+        }
+
+    .auth-container a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+        .auth-container a:hover {
+            color: #10b981;
+        }
+
+    /* --- 3. Ajustes de Layout Específicos --- */
+    .auth-container .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .auth-container .col-md-6 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .auth-container select.form-control {
+        height: calc(2.25rem + 2px);
+    }
+

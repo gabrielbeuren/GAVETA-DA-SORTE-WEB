@@ -1,0 +1,35 @@
+﻿<div class="container text-center mt-5">
+
+    <h2>Gaveta da Sorte</h2>
+    <p>Bem-vindo ao sistema!</p>
+
+    <div class="d-grid gap-3 col-4 mx-auto">
+
+        <a asp-controller="Grupo"
+           asp-action="Cadastro"
+           class="btn btn-primary">
+            Criar Grupo
+        </a>
+
+        <a asp-controller="Grupo"
+           asp-action="GrupoTelaInicial"
+           class="btn btn-success">
+            Meus Grupos
+        </a>
+
+        <a asp-controller="Usuario"
+           asp-action="Editar"
+           class="btn btn-warning">
+            Editar Cadastro
+        </a>
+
+        <a asp-controller="Usuario"
+           asp-action="Logout"
+           class="btn btn-danger">
+            Sair
+        </a>
+
+    </div>
+
+</div>
+
