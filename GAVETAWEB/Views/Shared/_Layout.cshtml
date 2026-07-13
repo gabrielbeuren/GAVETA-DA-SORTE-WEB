@@ -17,18 +17,56 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GAVETAWEB</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-            </div>
-        </nav>
-    </header>
+    @if (ViewData["EsconderNavbar"] == null)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-dark border-bottom shadow mb-3">
+
+                <div class="container-fluid">
+
+                    
+                    <a class="navbar-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        GAVETA DA SORTE
+                    </a>
+
+
+                    
+                    <div class="navbar-nav">
+
+                        <a class="nav-link"
+                           asp-controller="Usuario"
+                           asp-action="EditarCadastro">
+                            Editar Cadastro
+                        </a>
+
+
+                        <a class="nav-link"
+                           asp-controller="Grupo"
+                           asp-action="Cadastro">
+                            Criar Grupo
+                        </a>
+
+                        <a class="nav-link"
+                           asp-controller="Grupo"
+                           asp-action="GrupoTelaInicial">
+                            Meus Grupos
+                        </a>
+
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Login">
+                            Sair
+                        </a>
+                    </div>
+
+
+                </div>
+
+            </nav>
+        </header>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

@@ -1,12 +1,22 @@
 ﻿@model GAVETAWEB.Models.Usuario
 
+@{
+    ViewData["EsconderNavbar"] = true;
+}
 
 <div class="login-brand">
     <img src="~/images/gaveta-logo.png"
          alt="Gaveta da Sorte">
 </div>
+
+
+
+
 <div class="auth-container">
-    <h2 class="text-center mb-4">Login</h2>
+    
+    <div>
+        <h2 class="text-center mb-4">Login</h2>
+    </div>
 
     @if (TempData["Sucesso"] != null)
     {
