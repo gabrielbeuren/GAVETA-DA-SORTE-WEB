@@ -25,5 +25,10 @@ namespace GAVETAWEB.Models
         [Column("CriadorId")]
         [Display(Name = "Criador")]
         public int CriadorId { get; set; }
+
+        [Column("AdministradorId")]
+        [Display(Name = "Administrador")]
+        public int AdministradorId { get; set; }
+
     }
 }

@@ -1,0 +1,44 @@
+﻿@model GAVETAWEB.Models.Sorteio
+
+<div class="container mt-4">
+
+    <div class="card text-center">
+
+        <div class="card-header bg-warning">
+            <h2> Resultado do Sorteio </h2>
+        </div>
+
+        <div class="card-body">
+
+            <h3 class="mb-4">
+                Parabéns, @Model.Usuario.Nome!
+            </h3>
+
+            <p>
+                <strong>Grupo:</strong>
+                @Model.Grupo.Nome
+            </p>
+
+            <p>
+                <strong>Valor do prêmio:</strong>
+                R$ @Model.ValorPremio.ToString("N2")
+            </p>
+
+            <p>
+                <strong>Data do sorteio:</strong>
+                @Model.DataSorteio.ToString("dd/MM/yyyy HH:mm")
+            </p>
+
+            <hr />
+
+            <a asp-action="Detalhes"
+               asp-route-id="@Model.GrupoId"
+               class="btn btn-primary">
+                Voltar ao Grupo
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

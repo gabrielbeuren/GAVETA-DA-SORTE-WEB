@@ -1,97 +1,197 @@
-/* --- 1. Estilização Global --- */
-html, body {
-    min-height: 100vh;
-    margin: 0;
-    background-color: #0f172a; /* Fundo azul marinho escuro global */
-    color: #f8fafc;
-    display: flex;
-    flex-direction: column;
+/* =========================
+   GLOBAL FUTURISTA
+========================= */
+
+body {
+    background: #0a1f3d;
+    color: #e2e8f0;
 }
 
-main {
-    flex: 1; /* Faz o conteúdo principal ocupar o espaço disponível */
-    min-height: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    background: rgba(10, 15, 30, 0.95) !important;
+    border-bottom: 1px solid #1e3a8a;
+    box-shadow: 0 5px 25px rgba(0, 255, 255, .08);
 }
+
+
+.navbar-brand {
+    color: #22d3ee !important;
+    text-shadow: 0 0 10px rgba(34,211,238,.6);
+}
+
+
+
+/* =========================
+   CARDS
+========================= */
+
+
+.card,
+.auth-container {
+    background: linear-gradient( 145deg, #111827, #0b1225 );
+    border: 1px solid rgba(34,211,238,.25);
+    box-shadow: 0 0 25px rgba(34,211,238,.08), inset 0 0 20px rgba(139,92,246,.05);
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+
+.form-control {
+    background: #050816 !important;
+    border: 1px solid #334155 !important;
+    color: #e0f2fe !important;
+}
+
+
+    .form-control:focus {
+        border-color: #22d3ee !important;
+        box-shadow: 0 0 15px rgba(34,211,238,.35);
+    }
+
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+
+.btn-primary {
+    background: linear-gradient( 90deg, #06b6d4, #8b5cf6 );
+    border: none;
+    color: white;
+    box-shadow: 0 0 15px rgba(34,211,238,.35);
+}
+
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 25px rgba(139,92,246,.6);
+    }
+
+
+
+.btn-secondary {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+}
+
+
+    .btn-secondary:hover {
+        background: #334155;
+        color: white;
+    }
+
+
+
+/* =========================
+   TABELAS
+========================= */
+
+
+.table {
+    background: #0b1225;
+    color: #e2e8f0;
+}
+
+
+    .table thead {
+        background: linear-gradient( 90deg, #111827, #172554 );
+    }
+
+
+    .table th {
+        color: #22d3ee;
+    }
+
+
+    .table tbody tr:hover {
+        background: rgba(34,211,238,.08);
+    }
+
+
+
+/* =========================
+   ALERTAS
+========================= */
+
+
+.alert-danger {
+    background: rgba(239,68,68,.15);
+    border: 1px solid rgba(239,68,68,.4);
+    color: #fecaca;
+}
+
+
+.alert-success {
+    background: rgba(34,197,94,.15);
+    border: 1px solid rgba(34,197,94,.4);
+    color: #bbf7d0;
+}
+
+
+
+/* =========================
+   FOOTER
+========================= */
+
 
 footer {
-    flex-shrink: 0;
-    width: 100%;
-    color: #94a3b8;
+    background: #050816;
+    border-top: 1px solid #1e293b;
+}
+
+.login-brand {
     text-align: center;
-    padding: 10px;
+    margin-bottom: 20px;
 }
 
-/* --- 2. Componentes de Autenticação (Login/Cadastro) --- */
-.auth-container {
-    background-color: #1e293b;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    border: 1px solid #334155;
-    width: 100%;
-    max-width: 450px;
-    margin: 20px;
+
+    .login-brand img {
+        width: 280px;
+        height: auto;
+        filter: drop-shadow(0 0 15px rgba(34,211,238,.5));
+    }
+
+.home-banner {
+    text-align: center;
+    padding: 40px;
 }
 
-    .auth-container h2 {
-        color: #ffffff;
-        font-weight: 700;
+
+    .home-banner img {
+        width: 250px;
+        max-width: 80%;
+        filter: drop-shadow(0 0 25px rgba(139,92,246,.7));
     }
 
-    .auth-container .form-label {
-        color: #cbd5e1;
+
+    .home-banner h1 {
+        margin-top: 20px;
+        font-size: 2.2rem;
+        background: linear-gradient( 90deg, #22d3ee, #8b5cf6 );
+        -webkit-background-clip: text;
+        color: transparent;
     }
 
-    .auth-container .form-control {
-        background-color: #0f172a !important;
-        border: 1px solid #475569 !important;
-        color: white !important;
+.home-content {
+    background: linear-gradient( 145deg, #111827, #0b1225 );
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(34,211,238,.2);
+    min-height: 100%;
+}
+
+
+    .home-content h1 {
+        color: #22d3ee;
+        text-shadow: 0 0 15px rgba(34,211,238,.5);
     }
-
-        .auth-container .form-control:focus {
-            border-color: #10b981 !important; /* Verde esmeralda */
-            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
-        }
-
-    .auth-container .btn-primary {
-        background-color: #10b981 !important;
-        border: none;
-        font-weight: 600;
-        width: 100%;
-        padding: 12px;
-        transition: 0.3s;
-    }
-
-        .auth-container .btn-primary:hover {
-            background-color: #059669 !important;
-        }
-
-    .auth-container a {
-        color: #94a3b8;
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-
-        .auth-container a:hover {
-            color: #10b981;
-        }
-
-    /* --- 3. Ajustes de Layout Específicos --- */
-    .auth-container .row {
-        margin-left: -5px;
-        margin-right: -5px;
-    }
-
-    .auth-container .col-md-6 {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-
-    .auth-container select.form-control {
-        height: calc(2.25rem + 2px);
-    }
-

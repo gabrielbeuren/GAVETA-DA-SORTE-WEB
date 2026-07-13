@@ -1,4 +1,38 @@
-﻿@model GAVETAWEB.Models.Grupo
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Data de Criação</th>
+        </tr>
+    </thead>
 
+    <tbody>
+        @foreach (var grupo in Model)
+        {
+            <tr>
+                <td>@grupo.Nome</td>
+                <td>@grupo.Descricao</td>
+                <td>@grupo.DataCriacao.ToShortDateString()</td>
+                <td>
+                    <a asp-controller="Grupo"
+                       asp-action="Detalhes"
+                       asp-route-id="@grupo.Id"
+                       class="btn btn-primary">
+                        Abrir Grupo
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-    
+</table>
+
+</table>
+
+<a asp-controller="Home"
+   asp-action="Index"
+   class="btn btn-secondary mt-3">
+    Voltar
+</a>

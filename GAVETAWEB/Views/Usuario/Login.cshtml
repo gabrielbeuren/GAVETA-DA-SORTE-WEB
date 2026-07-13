@@ -1,8 +1,19 @@
 ﻿@model GAVETAWEB.Models.Usuario
 
+
+<div class="login-brand">
+    <img src="~/images/gaveta-logo.png"
+         alt="Gaveta da Sorte">
+</div>
 <div class="auth-container">
     <h2 class="text-center mb-4">Login</h2>
-    
+
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Sucesso"]
+        </div>
+    }
     <form asp-action="Login" method="post">
         <div class="mb-3">
             <label asp-for="Email" class="form-label">E-mail</label>
@@ -30,3 +41,4 @@
         }
     </form>
 </div>
+

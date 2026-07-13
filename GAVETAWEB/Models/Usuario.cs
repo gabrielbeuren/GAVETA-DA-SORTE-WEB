@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GAVETAWEB.Models;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GAVETAWEB.Models;
 
 namespace GAVETAWEB.Models
 {
@@ -44,6 +45,14 @@ namespace GAVETAWEB.Models
         [Display(Name = "Sexo")]
         public String Sexo { get; set; }
 
+        [Column("Saldo")]
+        [Display(Name = "Saldo")]
+        [Precision(10, 2)]
+        public decimal Saldo { get; set; }
+
+        [Column("FotoPerfil")]
+        [Display(Name = "Foto de Perfil")]
+        public string? FotoPerfil { get; set; }
     }
 }
 

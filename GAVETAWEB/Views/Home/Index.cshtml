@@ -1,35 +1,150 @@
-﻿<div class="container text-center mt-5">
+﻿<div class="container mt-5">
 
-    <h2>Gaveta da Sorte</h2>
-    <p>Bem-vindo ao sistema!</p>
+    <div class="row">
 
-    <div class="d-grid gap-3 col-4 mx-auto">
+        <!-- LADO ESQUERDO -->
+        <div class="col-md-4">
 
-        <a asp-controller="Grupo"
-           asp-action="Cadastro"
-           class="btn btn-primary">
-            Criar Grupo
-        </a>
+            <div class="perfil-box text-center">
 
-        <a asp-controller="Grupo"
-           asp-action="GrupoTelaInicial"
-           class="btn btn-success">
-            Meus Grupos
-        </a>
+                <img src="@ViewBag.FotoPerfil"
+                     class="rounded-circle shadow"
+                     width="180"
+                     height="180"
+                     style="object-fit: cover;" />
 
-        <a asp-controller="Usuario"
-           asp-action="Editar"
-           class="btn btn-warning">
-            Editar Cadastro
-        </a>
 
-        <a asp-controller="Usuario"
-           asp-action="Logout"
-           class="btn btn-danger">
-            Sair
-        </a>
+                <h3 class="mt-3">
+                    @ViewBag.Nome
+                </h3>
+
+
+                <form asp-controller="Usuario"
+                      asp-action="AlterarFoto"
+                      method="post"
+                      enctype="multipart/form-data">
+
+
+                    <input type="file"
+                           name="foto"
+                           class="form-control mt-3"
+                           accept="image/*" />
+
+
+                    <button type="submit"
+                            class="btn btn-primary mt-3 w-100">
+
+                        Alterar Foto
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <!-- SALDO ABAIXO DA FOTO -->
+            <div class="saldo-card mt-4 text-center">
+
+
+                <h4>
+                    Meu Saldo
+                </h4>
+
+
+                <h2>
+                    R$ @ViewBag.Saldo.ToString("N2")
+                </h2>
+
+
+                <a asp-controller="Home"
+                   asp-action="AdicionarSaldo"
+                   class="btn btn-primary w-100">
+
+                    Adicionar Saldo
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- LADO DIREITO -->
+        <div class="col-md-8">
+
+
+            <div class="home-content">
+
+
+                <h1>
+                    Bem-vindo à Gaveta da Sorte
+                </h1>
+
+
+                <p class="mt-3">
+                    Olá, @ViewBag.Nome!
+                    Gerencie seus grupos e participe dos sorteios.
+                </p>
+
+
+
+                <div class="d-grid gap-3 mt-5">
+
+
+                    <a asp-controller="Grupo"
+                       asp-action="Cadastro"
+                       class="btn btn-primary">
+
+                        Criar Grupo
+
+                    </a>
+
+
+                    <a asp-controller="Grupo"
+                       asp-action="GrupoTelaInicial"
+                       class="btn btn-primary">
+
+                        Meus Grupos
+
+                    </a>
+
+
+                    <a asp-controller="Usuario"
+                       asp-action="EditarCadastro"
+                       class="btn btn-secondary">
+
+                        Editar Cadastro
+
+                    </a>
+
+
+                    <a asp-controller="Usuario"
+                       asp-action="Logout"
+                       class="btn btn-danger">
+
+                        Sair
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
 
     </div>
 
-</div>
 
+</div>

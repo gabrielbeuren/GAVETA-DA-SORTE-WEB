@@ -22,6 +22,41 @@ namespace GAVETAWEB.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("GAVETAWEB.Models.Deposito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataDeposito")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DataDeposito");
+
+                    b.Property<int>("GrupoId")
+                        .HasColumnType("int")
+                        .HasColumnName("GrupoId");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int")
+                        .HasColumnName("UsuarioId");
+
+                    b.Property<decimal>("Valor")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("Valor");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Deposito");
+                });
+
             modelBuilder.Entity("GAVETAWEB.Models.Grupo", b =>
                 {
                     b.Property<int>("Id")
@@ -30,6 +65,10 @@ namespace GAVETAWEB.Migrations
                         .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdministradorId")
+                        .HasColumnType("int")
+                        .HasColumnName("AdministradorId");
 
                     b.Property<int>("CriadorId")
                         .HasColumnType("int")
@@ -52,6 +91,67 @@ namespace GAVETAWEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Grupo");
+                });
+
+            modelBuilder.Entity("GAVETAWEB.Models.ParticipanteGrupo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GrupoId")
+                        .HasColumnType("int")
+                        .HasColumnName("GrupoId");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int")
+                        .HasColumnName("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("ParticipanteGrupo");
+                });
+
+            modelBuilder.Entity("GAVETAWEB.Models.Sorteio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataSorteio")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DataSorteio");
+
+                    b.Property<int>("GrupoId")
+                        .HasColumnType("int")
+                        .HasColumnName("GrupoId");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int")
+                        .HasColumnName("UsuarioId");
+
+                    b.Property<decimal>("ValorPremio")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("ValorPremio");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Sorteio");
                 });
 
             modelBuilder.Entity("GAVETAWEB.Models.Usuario", b =>
@@ -81,10 +181,19 @@ namespace GAVETAWEB.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Email");
 
+                    b.Property<string>("FotoPerfil")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("FotoPerfil");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Nome");
+
+                    b.Property<decimal>("Saldo")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("Saldo");
 
                     b.Property<string>("Senha")
                         .IsRequired()
@@ -104,6 +213,63 @@ namespace GAVETAWEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("GAVETAWEB.Models.Deposito", b =>
+                {
+                    b.HasOne("GAVETAWEB.Models.Grupo", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GAVETAWEB.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("GAVETAWEB.Models.ParticipanteGrupo", b =>
+                {
+                    b.HasOne("GAVETAWEB.Models.Grupo", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GAVETAWEB.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("GAVETAWEB.Models.Sorteio", b =>
+                {
+                    b.HasOne("GAVETAWEB.Models.Grupo", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GAVETAWEB.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
+
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,40 @@
+﻿@model GAVETAWEB.Models.Usuario
+
+<form asp-action="EditarCadastro" method="post">
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+        <label>Nome</label>
+        <input asp-for="Nome" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>E-mail</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>CPF</label>
+        <input asp-for="CPF" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Data de Nascimento</label>
+        <input asp-for="DataNascimento" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Sexo</label>
+        <select asp-for="Sexo" class="form-select">
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Salvar Alterações
+    </button>
+
+</form>

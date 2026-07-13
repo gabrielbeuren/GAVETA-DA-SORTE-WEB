@@ -1,0 +1,138 @@
+﻿@model GAVETAWEB.Models.Grupo
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>@Model.Nome</h3>
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                <strong>Descrição:</strong><br />
+                @Model.Descricao
+            </p>
+
+            <p>
+                <strong>Data de Criação:</strong>
+                @Model.DataCriacao.ToShortDateString()
+            </p>
+
+            <p>
+                <strong>Administrador:</strong>
+                @ViewBag.Administrador.Nome
+            </p>
+
+            <hr />
+
+            <h5>Participantes</h5>
+
+            <ul class="list-group mb-3">
+
+                @foreach (var participante in ViewBag.Participantes)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        @participante.Usuario.Nome
+
+                        @if (ViewBag.EhAdministrador && participante.UsuarioId != Model.AdministradorId)
+                        {
+                            <a asp-action="RemoverParticipante"
+                               asp-route-id="@participante.Id"
+                               class="btn btn-danger btn-sm">
+                                Remover
+                            </a>
+                        }
+
+                    </li>
+                }
+
+            </ul>
+            <hr />
+
+            <h5>Depósitos</h5>
+
+            <ul class="list-group mb-3">
+
+                @foreach (var deposito in ViewBag.Depositos)
+                {
+                    <li class="list-group-item">
+                        @deposito.Usuario.Nome - R$ @deposito.Valor
+                    </li>
+                }
+
+            </ul>
+
+            <h5>
+                Total arrecadado:
+                R$ @ViewBag.TotalDepositos.ToString("N2")
+            </h5>
+            <hr />
+
+            <div class="d-grid gap-2">
+
+                <a asp-controller="Grupo"
+                   asp-action="AdicionarParticipante"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-primary">
+                    Participantes
+                </a>
+
+                <a asp-controller="Grupo"
+                   asp-action="Deposito"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-success">
+                    Depositar
+                </a>
+
+                @if (ViewBag.EhAdministrador)
+                {
+                    <button onclick="confirmarSorteio()" class="btn btn-warning">
+                        Realizar Sorteio
+                    </button>
+                }
+
+                
+
+                @if (ViewBag.EhAdministrador)
+                {
+                    <a asp-action="EditarGrupo"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-info">
+                        Editar Grupo
+                    </a>
+                }
+
+                <a asp-action="SairGrupo"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-danger">
+                    Sair do Grupo
+                </a>
+
+                <a asp-action="GrupoTelaInicial"
+                   class="btn btn-secondary">
+                    Voltar
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function confirmarSorteio() {
+
+        let confirmar = confirm(
+            "Deseja realmente realizar o sorteio?"
+        );
+
+        if (confirmar) {
+            window.location.href =
+                '/Grupo/RealizarSorteio?id=@Model.Id';
+        }
+
+    }
+</script>

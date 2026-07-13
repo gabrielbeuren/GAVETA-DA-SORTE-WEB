@@ -1,0 +1,63 @@
+﻿@using GAVETAWEB.Models
+
+@{
+    ViewData["Title"] = "Adicionar Participante";
+}
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Adicionar Participante</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="AdicionarParticipante" method="post">
+
+                <input type="hidden" name="GrupoId" value="@ViewBag.GrupoId" />
+
+                <div class="mb-3">
+                    <label class="form-label">Usuário</label>
+
+                    <select name="UsuarioId" class="form-control" required>
+
+                        <option value="">Selecione um usuário</option>
+
+                        @foreach (Usuario usuario in ViewBag.Usuarios)
+                        {
+                            <option value="@usuario.Id">
+                                @usuario.Nome
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Adicionar
+                </button>
+
+                <a asp-action="Detalhes"
+                   asp-route-id="@ViewBag.GrupoId"
+                   class="btn btn-secondary">
+                    Voltar
+                </a>
+
+                @if (ViewBag.Mensagem != null)
+                {
+                    <div class="alert alert-warning">
+                        @ViewBag.Mensagem
+                    </div>
+                }
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
