@@ -22,10 +22,10 @@
         <header>
             <nav class="navbar navbar-expand-sm navbar-dark border-bottom shadow mb-3">
 
-                <div class="container-fluid">
+                <div class="container-fluid d-flex align-items-center">
 
                     
-                    <a class="navbar-brand"
+                    <a class="navbar-brand me-4"
                        asp-controller="Home"
                        asp-action="Index">
                         GAVETA DA SORTE
@@ -33,8 +33,13 @@
 
 
                     
-                    <div class="navbar-nav">
+                    <div class="navbar-nav d-flex flex-row gap-3">
 
+                        <a class="nav-link"
+                           asp-controller="Usuario"
+                           asp-action="Comunidade">
+                            Comunidade
+                        </a>
                         <a class="nav-link"
                            asp-controller="Usuario"
                            asp-action="EditarCadastro">
@@ -48,19 +53,21 @@
                             Criar Grupo
                         </a>
 
+
                         <a class="nav-link"
                            asp-controller="Grupo"
                            asp-action="GrupoTelaInicial">
                             Meus Grupos
                         </a>
 
+
                         <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="Login">
+                           asp-controller="Usuario"
+                           asp-action="Logout">
                             Sair
                         </a>
-                    </div>
 
+                    </div>
 
                 </div>
 
