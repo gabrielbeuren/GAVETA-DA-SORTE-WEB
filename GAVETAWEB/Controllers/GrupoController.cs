@@ -69,6 +69,7 @@ namespace GAVETAWEB.Controllers
             _context.ParticipanteGrupo.Add(participante);
             _context.SaveChanges();
             return RedirectToAction("GrupoTelaInicial");
+       
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
