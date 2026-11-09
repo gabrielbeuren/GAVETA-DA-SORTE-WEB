@@ -423,6 +423,56 @@ namespace GAVETAWEB.Controllers.API
                 valorPremio = premio
             });
         }
+
+        [Authorize]
+        [HttpDelete("remover-participante/{id}")]
+        public IActionResult RemoverParticipante(int id)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var participante = _context.ParticipanteGrupo
+                .FirstOrDefault(p => p.Id == id);
+
+            if (participante == null)
+                return NotFound(new { mensagem = "Participante não encontrado." });
+
+            var grupo = _context.Grupo
+                .FirstOrDefault(g => g.Id == participante.GrupoId);
+
+            if (grupo == null)
+                return NotFound(new { mensagem = "Grupo não encontrado." });
+
+            if (grupo.AdministradorId != idUsuario)
+                return Forbid();
+
+            if (participante.UsuarioId == grupo.AdministradorId)
+                return BadRequest(new { mensagem = "O administrador não pode remover a si mesmo." });
+
+            var depositos = _context.Deposito
+                .Where(d => d.GrupoId == grupo.Id &&
+                            d.UsuarioId == participante.UsuarioId)
+                .ToList();
+
+            decimal valorDevolvido = depositos.Sum(d => d.Valor);
+
+            var usuarioRemovido = _context.Usuario
+                .FirstOrDefault(u => u.Id == participante.UsuarioId);
+
+            if (usuarioRemovido != null)
+                usuarioRemovido.Saldo += valorDevolvido;
+
+            _context.Deposito.RemoveRange(depositos);
+            _context.ParticipanteGrupo.Remove(participante);
+
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Participante removido com sucesso.",
+                valorDevolvido = valorDevolvido
+            });
+        }
     }
 }
 
