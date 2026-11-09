@@ -281,6 +281,148 @@ namespace GAVETAWEB.Controllers.API
                 mensagem = "Participante adicionado com sucesso!"
             });
         }
+
+        [Authorize]
+        [HttpPost("depositar")]
+        public IActionResult Depositar(DepositoDTO dados)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var usuario = _context.Usuario
+                .FirstOrDefault(u => u.Id == idUsuario);
+
+            if (usuario == null)
+            {
+                return NotFound(new
+                {
+                    mensagem = "Usuário não encontrado."
+                });
+            }
+
+            var grupo = _context.Grupo
+                .FirstOrDefault(g => g.Id == dados.GrupoId);
+
+            if (grupo == null)
+            {
+                return NotFound(new
+                {
+                    mensagem = "Grupo não encontrado."
+                });
+            }
+
+            bool participa = _context.ParticipanteGrupo.Any(p =>
+                p.GrupoId == dados.GrupoId &&
+                p.UsuarioId == idUsuario);
+
+            if (!participa)
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Você não participa deste grupo."
+                });
+            }
+
+            if (dados.Valor <= 0)
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Informe um valor válido."
+                });
+            }
+
+            if (usuario.Saldo < dados.Valor)
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Saldo insuficiente."
+                });
+            }
+
+            var deposito = new Deposito
+            {
+                UsuarioId = idUsuario,
+                GrupoId = dados.GrupoId,
+                Valor = dados.Valor,
+                DataDeposito = DateTime.Now
+            };
+
+            usuario.Saldo -= dados.Valor;
+
+            _context.Deposito.Add(deposito);
+            _context.Usuario.Update(usuario);
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Depósito realizado com sucesso!",
+                valorDepositado = dados.Valor,
+                saldoRestante = usuario.Saldo
+            });
+        }
+
+        [Authorize]
+        [HttpPost("realizar-sorteio/{id}")]
+        public IActionResult RealizarSorteio(int id)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = _context.Grupo.FirstOrDefault(g => g.Id == id);
+
+            if (grupo == null)
+                return NotFound(new { mensagem = "Grupo não encontrado." });
+
+            if (grupo.AdministradorId != idUsuario)
+                return Forbid();
+
+            var participantes = _context.ParticipanteGrupo
+                .Where(p => p.GrupoId == id)
+                .ToList();
+
+            if (participantes.Count == 0)
+                return BadRequest(new { mensagem = "Não existem participantes no grupo." });
+
+            var depositos = _context.Deposito
+                .Where(d => d.GrupoId == id)
+                .ToList();
+
+            decimal premio = depositos.Sum(d => d.Valor);
+
+            if (premio <= 0)
+                return BadRequest(new { mensagem = "Não existem depósitos para realizar o sorteio." });
+
+            var sorteado = participantes[
+                new Random().Next(participantes.Count)];
+
+            var vencedor = _context.Usuario
+                .FirstOrDefault(u => u.Id == sorteado.UsuarioId);
+
+            if (vencedor == null)
+                return NotFound(new { mensagem = "Vencedor não encontrado." });
+
+            vencedor.Saldo += premio;
+
+            var sorteio = new Sorteio
+            {
+                GrupoId = id,
+                UsuarioId = vencedor.Id,
+                ValorPremio = premio,
+                DataSorteio = DateTime.Now
+            };
+
+            _context.Sorteio.Add(sorteio);
+            _context.Deposito.RemoveRange(depositos);
+
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Sorteio realizado com sucesso!",
+                vencedor = vencedor.Nome,
+                valorPremio = premio
+            });
+        }
     }
 }
 
