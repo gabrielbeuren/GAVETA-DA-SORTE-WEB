@@ -194,4 +194,45 @@ footer {
     .home-content h1 {
         color: #22d3ee;
         text-shadow: 0 0 15px rgba(34,211,238,.5);
+        
+     }
+
+/* =========================
+   COR DOS TEXTOS INTERNOS
+========================= */
+
+h1, h2, h3, h4, h5, h6,
+p, label, span, strong,
+.form-label, .card-title,
+.card-text, .text-muted {
+    color: #e2e8f0;
+}
+
+/* Descrição dos grupos */
+p, .card-text {
+    color: #cbd5e1;
+}
+
+/* Links */
+a {
+    color: #22d3ee;
+}
+
+    a:hover {
+        color: #8b5cf6;
     }
+
+/* Textos dos formulários */
+.form-label {
+    color: #e2e8f0 !important;
+}
+
+/* Textos das páginas internas */
+.container {
+    color: #e2e8f0;
+}
+
+/* Textos dentro dos cards */
+.card-body {
+    color: #e2e8f0;
+}
