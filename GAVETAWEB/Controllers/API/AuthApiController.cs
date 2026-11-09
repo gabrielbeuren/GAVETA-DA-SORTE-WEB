@@ -160,6 +160,66 @@ namespace GAVETAWEB.Controllers.API
                 grupo
             });
         }
+
+        [Authorize]
+        [HttpGet("detalhes-grupo/{id}")]
+        public IActionResult DetalhesGrupo(int id)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = _context.Grupo
+                .FirstOrDefault(g => g.Id == id);
+
+            if (grupo == null)
+            {
+                return NotFound(new
+                {
+                    mensagem = "Grupo não encontrado."
+                });
+            }
+
+            bool participa = _context.ParticipanteGrupo.Any(p =>
+                p.GrupoId == id && p.UsuarioId == idUsuario);
+
+            if (!participa)
+            {
+                return Forbid();
+            }
+
+            var administrador = _context.Usuario
+                .Where(u => u.Id == grupo.AdministradorId)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Nome
+                })
+                .FirstOrDefault();
+
+            var participantes = _context.ParticipanteGrupo
+                .Where(p => p.GrupoId == id)
+                .Select(p => new
+                {
+                    p.Usuario.Id,
+                    p.Usuario.Nome
+                })
+                .ToList();
+
+            var totalDepositos = _context.Deposito
+                .Where(d => d.GrupoId == id)
+                .Sum(d => (decimal?)d.Valor) ?? 0;
+
+            return Ok(new
+            {
+                grupo.Id,
+                grupo.Nome,
+                grupo.Descricao,
+                grupo.DataCriacao,
+                administrador,
+                participantes,
+                totalDepositos
+            });
+        }
     }
 }
 
