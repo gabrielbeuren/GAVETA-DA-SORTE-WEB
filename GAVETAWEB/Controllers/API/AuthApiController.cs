@@ -558,6 +558,35 @@ namespace GAVETAWEB.Controllers.API
                 mensagem = "Você saiu do grupo com sucesso."
             });
         }
+
+        [Authorize]
+        [HttpPost("adicionar-saldo")]
+        public IActionResult AdicionarSaldo(AdicionarSaldoDTO dados)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var usuario = _context.Usuario
+                .FirstOrDefault(u => u.Id == idUsuario);
+
+            if (usuario == null)
+                return NotFound(new { mensagem = "Usuário não encontrado." });
+
+            if (dados.Valor <= 0)
+                return BadRequest(new { mensagem = "Informe um valor válido." });
+
+            usuario.Saldo += dados.Valor;
+
+            _context.Entry(usuario).Property(u => u.Saldo).IsModified = true;
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Saldo adicionado com sucesso!",
+                valorAdicionado = dados.Valor,
+                saldoAtual = usuario.Saldo
+            });
+        }
     }
 }
 
