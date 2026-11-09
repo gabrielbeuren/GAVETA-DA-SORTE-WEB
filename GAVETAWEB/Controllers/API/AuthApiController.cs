@@ -506,6 +506,58 @@ namespace GAVETAWEB.Controllers.API
                 grupo.Descricao
             });
         }
+
+        [Authorize]
+        [HttpDelete("sair-grupo/{id}")]
+        public IActionResult SairGrupo(int id)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = _context.Grupo.FirstOrDefault(g => g.Id == id);
+
+            if (grupo == null)
+                return NotFound(new { mensagem = "Grupo não encontrado." });
+
+            var participante = _context.ParticipanteGrupo
+                .FirstOrDefault(p => p.GrupoId == id &&
+                                     p.UsuarioId == idUsuario);
+
+            if (participante == null)
+                return BadRequest(new { mensagem = "Você não participa deste grupo." });
+
+            // Se for o administrador
+            if (grupo.AdministradorId == idUsuario)
+            {
+                decimal total = _context.Deposito
+                    .Where(d => d.GrupoId == id)
+                    .Sum(d => d.Valor);
+
+                if (total > 0)
+                    return BadRequest(new
+                    {
+                        mensagem = "O administrador não pode sair enquanto houver dinheiro no grupo."
+                    });
+
+                _context.ParticipanteGrupo.Remove(participante);
+                _context.Grupo.Remove(grupo);
+                _context.SaveChanges();
+
+                return Ok(new
+                {
+                    mensagem = "Grupo excluído com sucesso."
+                });
+            }
+
+            // Se for participante comum
+            _context.ParticipanteGrupo.Remove(participante);
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Você saiu do grupo com sucesso."
+            });
+        }
     }
 }
 
