@@ -220,6 +220,67 @@ namespace GAVETAWEB.Controllers.API
                 totalDepositos
             });
         }
+
+        [Authorize]
+        [HttpPost("adicionar-participante")]
+        public IActionResult AdicionarParticipante(AdicionarParticipanteDTO dados)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = _context.Grupo
+                .FirstOrDefault(g => g.Id == dados.GrupoId);
+
+            if (grupo == null)
+            {
+                return NotFound(new
+                {
+                    mensagem = "Grupo não encontrado."
+                });
+            }
+
+            if (grupo.AdministradorId != idUsuario)
+            {
+                return Forbid();
+            }
+
+            var usuario = _context.Usuario
+                .FirstOrDefault(u => u.Id == dados.UsuarioId);
+
+            if (usuario == null)
+            {
+                return NotFound(new
+                {
+                    mensagem = "Usuário não encontrado."
+                });
+            }
+
+            bool jaExiste = _context.ParticipanteGrupo.Any(p =>
+                p.UsuarioId == dados.UsuarioId &&
+                p.GrupoId == dados.GrupoId);
+
+            if (jaExiste)
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Este usuário já faz parte do grupo."
+                });
+            }
+
+            var participante = new ParticipanteGrupo
+            {
+                UsuarioId = dados.UsuarioId,
+                GrupoId = dados.GrupoId
+            };
+
+            _context.ParticipanteGrupo.Add(participante);
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Participante adicionado com sucesso!"
+            });
+        }
     }
 }
 
