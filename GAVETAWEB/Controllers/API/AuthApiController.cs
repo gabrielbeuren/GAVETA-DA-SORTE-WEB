@@ -473,6 +473,39 @@ namespace GAVETAWEB.Controllers.API
                 valorDevolvido = valorDevolvido
             });
         }
+
+        [Authorize]
+        [HttpPut("editar-grupo/{id}")]
+        public IActionResult EditarGrupo(int id, EditarGrupoDTO dados)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = _context.Grupo
+                .FirstOrDefault(g => g.Id == id);
+
+            if (grupo == null)
+                return NotFound(new { mensagem = "Grupo não encontrado." });
+
+            if (grupo.AdministradorId != idUsuario)
+                return Forbid();
+
+            if (string.IsNullOrWhiteSpace(dados.Nome))
+                return BadRequest(new { mensagem = "Informe o nome do grupo." });
+
+            grupo.Nome = dados.Nome;
+            grupo.Descricao = dados.Descricao;
+
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Grupo atualizado com sucesso!",
+                grupo.Id,
+                grupo.Nome,
+                grupo.Descricao
+            });
+        }
     }
 }
 
