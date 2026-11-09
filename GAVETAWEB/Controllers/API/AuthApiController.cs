@@ -102,6 +102,64 @@ namespace GAVETAWEB.Controllers.API
                 usuario.FotoPerfil
             });
         }
+
+        [Authorize]
+        [HttpGet("grupos")]
+        public IActionResult MeusGrupos()
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupos = _context.ParticipanteGrupo
+                .Where(p => p.UsuarioId == idUsuario)
+                .Select(p => new
+                {
+                    p.Grupo.Id,
+                    p.Grupo.Nome,
+                    p.Grupo.Descricao,
+                    p.Grupo.DataCriacao,
+                    p.Grupo.CriadorId,
+                    p.Grupo.AdministradorId
+                })
+                .ToList();
+
+            return Ok(grupos);
+        }
+
+        [Authorize]
+        [HttpPost("criar-grupo")]
+        public IActionResult CriarGrupo(CriarGrupoDTO dados)
+        {
+            var idUsuario = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var grupo = new Grupo
+            {
+                Nome = dados.Nome,
+                Descricao = dados.Descricao,
+                DataCriacao = DateTime.Now,
+                CriadorId = idUsuario,
+                AdministradorId = idUsuario
+            };
+
+            _context.Grupo.Add(grupo);
+            _context.SaveChanges();
+
+            var participante = new ParticipanteGrupo
+            {
+                UsuarioId = idUsuario,
+                GrupoId = grupo.Id
+            };
+
+            _context.ParticipanteGrupo.Add(participante);
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                mensagem = "Grupo criado com sucesso!",
+                grupo
+            });
+        }
     }
 }
 
