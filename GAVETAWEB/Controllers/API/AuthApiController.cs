@@ -161,6 +161,7 @@ namespace GAVETAWEB.Controllers.API
             });
         }
 
+
         [Authorize]
         [HttpGet("detalhes-grupo/{id}")]
         public IActionResult DetalhesGrupo(int id)
@@ -200,7 +201,8 @@ namespace GAVETAWEB.Controllers.API
                 .Where(p => p.GrupoId == id)
                 .Select(p => new
                 {
-                    p.Usuario.Id,
+                    p.Id,
+                    UsuarioId = p.Usuario.Id,
                     p.Usuario.Nome
                 })
                 .ToList();
@@ -220,6 +222,7 @@ namespace GAVETAWEB.Controllers.API
                 totalDepositos
             });
         }
+
 
         [Authorize]
         [HttpPost("adicionar-participante")]
@@ -430,6 +433,22 @@ namespace GAVETAWEB.Controllers.API
         {
             var idUsuario = int.Parse(
                 User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            Console.WriteLine("ID RECEBIDO NA REMOÇÃO: " + id);
+
+            var registros = _context.ParticipanteGrupo
+                .Select(p => new
+                {
+                    p.Id,
+                    p.UsuarioId,
+                    p.GrupoId
+                })
+                .ToList();
+
+            foreach (var registro in registros)
+            {
+                Console.WriteLine(
+                    $"Participante: {registro.Id} | Usuário: {registro.UsuarioId} | Grupo: {registro.GrupoId}");
+            }
 
             var participante = _context.ParticipanteGrupo
                 .FirstOrDefault(p => p.Id == id);
