@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 // Banco de dados
 builder.Services.AddDbContext<Contexto>(options =>
     options.UseSqlServer(
-        "Server=GABRIEL;Database=GAVETAWEB;Trusted_Connection=True;TrustServerCertificate=True"));
+        "Server=sql8006.site4now.net;Database=db_ad0f44_gavetaweb;User Id=db_ad0f44_gavetaweb_admin;Password=Gaveta-web123;TrustServerCertificate=True"));
 
 // Sessão do site
 builder.Services.AddSession();
